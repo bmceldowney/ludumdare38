@@ -4,13 +4,18 @@ import DisplayObjects from '../display_objects';
 
 export default class Gameplay extends _State {
   create () {
+    game.physics.startSystem(Phaser.Physics.P2JS); //Starting the p2 physics
     this.stage.backgroundColor = '#223344';
-    this.world.setBounds(0, 0, 1400, 1400);
+    this.world.setBounds(0, 0, 320, 288);
     this.player = GameObjects.player(game, this.world.centerX, 60);
+    this.ThrowableObject = GameObjects.throwable(game, this.world.centerx, this.world.centery); //Importing the ThrowableObject
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON);
+
 
     this.add.existing(this.titleText());
     this.add.existing(this.player);
+    this.add.existing(this.ThrowableObject);  //Adding the throwable object
+    console.log(this.ThrowableObject);
   }
 
   titleText () {
