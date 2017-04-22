@@ -82,7 +82,7 @@
 	
 	var _Loading2 = _interopRequireDefault(_Loading);
 	
-	var _Menu = __webpack_require__(9);
+	var _Menu = __webpack_require__(11);
 	
 	var _Menu2 = _interopRequireDefault(_Menu);
 	
@@ -475,6 +475,10 @@
 	
 	var _game_objects2 = _interopRequireDefault(_game_objects);
 	
+	var _ui = __webpack_require__(9);
+	
+	var _ui2 = _interopRequireDefault(_ui);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -514,16 +518,14 @@
 	  }, {
 	    key: 'preload',
 	    value: function preload() {
+	      var _this2 = this;
+	
 	      _display_objects2.default.load(this);
 	      _game_objects2.default.load(this);
-	    }
 	
-	    // create() is automagically triggerd after preload completes
-	
-	  }, {
-	    key: 'create',
-	    value: function create() {
-	      this.stateProvider.menu(this.state);
+	      _ui2.default.load(this.game, function () {
+	        _this2.stateProvider.menu(_this2.state);
+	      });
 	    }
 	  }]);
 	
@@ -534,6 +536,91 @@
 
 /***/ },
 /* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _menu = __webpack_require__(10);
+	
+	var _menu2 = _interopRequireDefault(_menu);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var menuScreen = void 0;
+	
+	exports.default = {
+	    load: function load(game, callback) {
+	        var uiAssets = ['./bottom_left_border.png', './bottom_middle_border.png', './bottom_right_border.png', './middle_left_border.png', './middle_middle_border.png', './middle_right_border.png', './top_left_border.png', './top_middle_border.png', './top_right_border.png'];
+	
+	        uiAssets.forEach(function (asset) {
+	            game.load.image(asset, '' + asset);
+	        });
+	
+	        game.load.onLoadComplete.add(function () {
+	            EZGUI.Compatibility.fixCache.call(game.load, uiAssets);
+	
+	            EZGUI.Theme.load(['theme.json'], function () {
+	                callback();
+	            });
+	        });
+	    },
+	
+	    menu: {
+	        create: function create(game) {
+	            this.menuScreen = EZGUI.create(_menu2.default, 'ui-theme');
+	            game.time.events.loop(400, function () {
+	                var text = EZGUI.components.spacelabel;
+	                text.visible = !text.visible;
+	            });
+	        },
+	
+	        clear: function clear() {
+	            this.menuScreen.destroy();
+	        }
+	    }
+	};
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    id: 'menu',
+	    component: 'Window',
+	    draggable: false,
+	    position: { x: 20, y: 20 },
+	    width: 280,
+	    height: 248,
+	
+	    layout: [1, 3],
+	    children: [{
+	        id: 'label',
+	        component: 'Label',
+	        position: 'center',
+	        text: 'WELCOME TO THE SMALLEST WORLD',
+	        width: 200,
+	        height: 50
+	    }, null, {
+	        id: 'spacelabel',
+	        component: 'Label',
+	        position: 'center',
+	        text: 'Press space for full immersion',
+	        width: 200,
+	        height: 50
+	    }]
+	};
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -551,6 +638,10 @@
 	var _display_objects = __webpack_require__(6);
 	
 	var _display_objects2 = _interopRequireDefault(_display_objects);
+	
+	var _ui = __webpack_require__(9);
+	
+	var _ui2 = _interopRequireDefault(_ui);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -574,35 +665,14 @@
 	    value: function create() {
 	      this.stage.backgroundColor = '#AACCCC';
 	      this.stage.disableVisibilityChange = true;
-	      this.add.existing(this.titleText());
-	      this.add.existing(this.alphabetText());
-	      this.add.existing(this.actionText());
-	    }
-	  }, {
-	    key: 'titleText',
-	    value: function titleText() {
-	      return _display_objects2.default.displayFont(game, 'THIS IS THE MENU', this.world.centerX, 100, 'center');
-	    }
-	  }, {
-	    key: 'alphabetText',
-	    value: function alphabetText() {
-	      var text = _display_objects2.default.bodyFont(game, '\nAaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz\n1,234,567,890 Ti Tj To 77 71 73 91910 .:;,\n!\u2116;%:?*()_+-=.,/|"\'@#$^&{}[]', this.world.centerX, 145, 'center');
-	      text.maxWidth = 300;
-	      return text;
-	    }
-	  }, {
-	    key: 'actionText',
-	    value: function actionText() {
-	      var text = _display_objects2.default.bodyFont(game, 'Press Spacebar to Play!', this.world.centerX, 190, 'center');
-	      this.time.events.loop(400, function () {
-	        return text.visible = !text.visible;
-	      });
-	      return text;
+	
+	      _ui2.default.menu.create(this);
 	    }
 	  }, {
 	    key: 'update',
 	    value: function update() {
 	      if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+	        _ui2.default.menu.clear();
 	        this.stateProvider.gameplay(this.state);
 	      }
 	    }

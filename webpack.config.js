@@ -24,6 +24,8 @@ module.exports = {
     }, {
       from: 'assets'
     }, {
+      from: 'assets/ui'
+    }, {
       from: 'external'
     }, {
       from: '../node_modules/phaser/build'

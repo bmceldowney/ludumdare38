@@ -1,0 +1,44 @@
+{
+    "__config__": {
+        "name": "ui-theme",
+        "resources": [
+            "./bottom_left_border.png",
+            "./bottom_middle_border.png",
+            "./bottom_right_border.png",
+            "./middle_left_border.png",
+            "./middle_middle_border.png",
+            "./middle_right_border.png",
+            "./top_left_border.png",
+            "./top_middle_border.png",
+            "./top_right_border.png",
+            "../Blocktopia_12pt.fnt"
+        ]
+    },
+
+    "default": {
+        "scale": 1,
+        "bg": "",
+        "padding" : 0,
+        "bgPadding": 0,
+        "corner": "./top_left_border.png",
+        "line": "./top_middle_border.png",
+        "font": {
+            "size": "12px",
+            "family": "Blocktopia_12pt",
+            "color": "#32ff32"
+        }
+    },
+
+    "Window": {
+        "bgPadding": 6,
+        "bg": "./middle_middle_border.png",
+        "corner-tl": "./top_left_border.png",
+        "corner-tr": "./top_right_border.png",
+        "corner-bl": "./bottom_left_border.png",
+        "corner-br": "./bottom_right_border.png",
+        "line-t": "./top_middle_border.png",
+        "line-r": "./middle_right_border.png",
+        "line-b": "./bottom_middle_border.png",
+        "line-l": "./middle_left_border.png"
+    }
+}
