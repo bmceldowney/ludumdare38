@@ -250,7 +250,7 @@
 	
 	module.exports = {
 	  load: function load(loader) {
-	    loader.load.spritesheet(PLAYER_SHIP, 'assets/ship.png', 6, 6);
+	    loader.load.spritesheet(PLAYER_SHIP, 'ship.png', 6, 6);
 	  },
 	
 	  player: function player(game, x, y) {
@@ -366,8 +366,8 @@
 	
 	module.exports = {
 	  load: function load(loader) {
-	    loader.load.bitmapFont(DISPLAY_FONT, 'assets/Blocktopia_32pt.png', 'assets/Blocktopia_32pt.fnt');
-	    loader.load.bitmapFont(BODY_FONT, 'assets/Blocktopia_12pt.png', 'assets/Blocktopia_12pt.fnt');
+	    loader.load.bitmapFont(DISPLAY_FONT, 'Blocktopia_32pt.png', 'Blocktopia_32pt.fnt');
+	    loader.load.bitmapFont(BODY_FONT, 'Blocktopia_12pt.png', 'Blocktopia_12pt.fnt');
 	  },
 	
 	  displayFont: function displayFont(game) {
