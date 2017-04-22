@@ -9,19 +9,25 @@ export default {
     layout: [1, 3],
     children: [
         {
-            id: 'label',
+            id: 'menu_label',
             component: 'Label',
-            position: 'center',
-            text: 'WELCOME TO THE SMALLEST WORLD',
+            position: { x: 40, y: 40 },
+            text: 'WELCOME TO\nTHE SMALLEST\nOF WORLDS',
             width: 200,
-            height: 50
+            padding: 10,
+            height: 50,
+            font: {
+                size: "32px",
+                family: "Blocktopia_32pt",
+                color: "#f0f0f0"
+            }
         },
         null,
         {
-            id: 'spacelabel',
-            component: 'Label',
+            id: 'menu_button',
+            component: 'Button',
             position: 'center',
-            text: 'Press space for full immersion',
+            text: 'Press for full immersion',
             width: 200,
             height: 50
         }
