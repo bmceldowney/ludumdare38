@@ -4,7 +4,7 @@ export default class ThrowableObject extends Phaser.Sprite {
     this.anchor.setTo(0.5, 1);
 
     game.physics.p2.enable(this, true);
-    this.body.setCircle(20);
+    this.body.setCircle(10);
   }
 
 }
