@@ -1,5 +1,4 @@
 import _State from './_State';
-import DisplayObjects from '../display_objects';
 import ui from '../ui'
 
 export default class Menu extends _State {
@@ -8,12 +7,8 @@ export default class Menu extends _State {
     this.stage.disableVisibilityChange = true;
 
     ui.menu.create(this)
-  }
-
-  update () {
-    if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-      ui.menu.clear()
+    ui.menu.onStart(() => {
       this.stateProvider.gameplay(this.state)
-    }
+    })
   }
 }

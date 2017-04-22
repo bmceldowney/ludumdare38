@@ -10,7 +10,7 @@ module.exports = {
   },
 
   displayFont: function displayFont (game, text = '', x = 0, y = 0, align = 'left') {
-    return new BitmapFont(game, x, y, DISPLAY_FONT, text, 30, align);
+    return new BitmapFont(game, x, y, DISPLAY_FONT, text, 32, align);
   },
 
   bodyFont: function displayFont (game, text = '', x = 0, y = 0, align = 'left') {
