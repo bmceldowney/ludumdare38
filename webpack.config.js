@@ -20,13 +20,11 @@ module.exports = {
   plugins: [
     new CleanPlugin(['build']),
     new CopyPlugin([{
-      from: './static'
+      from: 'static'
     }, {
-      from: './assets',
-      to: 'assets'
+      from: 'assets'
     }, {
-      from: '../node_modules/phaser/build',
-      to: 'scripts'
+      from: '../node_modules/phaser/build'
     }])
   ]
 };
