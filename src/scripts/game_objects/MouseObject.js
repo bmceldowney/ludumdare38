@@ -3,10 +3,9 @@ export default class MouseObject extends Phaser.Sprite {
     super(game, x, y, key);
     this.anchor.setTo(0.5, 1);
 
-    game.physics.p2.enable(this, true);
+    game.physics.p2.enable(this, false);
+    this.body.static = true;
     this.body.setCircle(9);
     this.body.data.shapes[0].sensor = true;
-    this.body.static = true;
   }
-
 }

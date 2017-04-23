@@ -2,7 +2,7 @@ export default {
     id: 'menu',
     component: 'Window',
     draggable: false,
-    position: { x: 20, y: 20 },
+    position: { x: 100, y: 20 },
     width: 280,
     height: 248,
 
@@ -28,8 +28,8 @@ export default {
             component: 'Button',
             position: 'center',
             text: 'Press for full immersion',
-            width: 200,
-            height: 50
+            width: 160,
+            height: 36
         }
     ]
 }

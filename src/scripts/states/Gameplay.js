@@ -4,36 +4,32 @@ import DisplayObjects from '../display_objects';
 
 export default class Gameplay extends _State {
   create () {
+    this.background = DisplayObjects.background(game)
     game.physics.startSystem(Phaser.Physics.P2JS); //Starting the p2 physics
-    this.stage.backgroundColor = '#223344';
-    game.physics.p2.restitution = 0.8;
-    this.world.setBounds(0, 0, 320, 288);
-    this.player = GameObjects.player(game, this.world.centerX, 60);
-    this.drawLine = false;
+    this.stage.backgroundColor = '#000000';
+    game.physics.p2.restitution = 1;
+    this.world.setBounds(0, 0, 480, 360);
+    this.earth = DisplayObjects.earth(game, 460, 344)
+    this.mars = DisplayObjects.mars(game, 20, 20)
     this.ThrowableObject = GameObjects.throwable(game, this.world.centerx, this.world.centery); //Importing the ThrowableObject
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y);
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON);
     this.line = new Phaser.Line(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
 
 
-    this.add.existing(this.titleText());
-    this.add.existing(this.player);
     this.add.existing(this.ThrowableObject);  //Adding the throwable object
     this.add.existing(this.MouseObject);
-    //this.MouseObject = static;
+
     game.input.onDown.add(this.click, this);
     game.input.addMoveCallback(this.move, this);
     game.input.onUp.add(this.release, this);
- }
- move(pointer, x, y, isDown) {
+  }
+  move(pointer, x, y, isDown) {
     this.MouseObject.body.x = x;
     this.MouseObject.body.y = y;
-    //this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y)
-    //this.drawLine = true;
   }
 
   click(pointer) {
-
     var bodies = game.physics.p2.hitTest(pointer.position, [ this.ThrowableObject ]);
 
     if (bodies.length)
@@ -41,19 +37,13 @@ export default class Gameplay extends _State {
         //  Attach to the first body the mouse hit
         this.mouseSpring = game.physics.p2.createSpring(this.MouseObject, bodies[0], 0, 10, 5);
         this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
-        //line.setTo(cow.x, cow.y, mouseBody.x, mouseBody.y);
         this.drawLine = true;
     }
-
-}
-  release() {
-
-    game.physics.p2.removeSpring(this.mouseSpring);
-    this.drawLine = false;
   }
 
-  titleText () {
-    return DisplayObjects.displayFont(game, 'THIS IS THE GAME', this.world.centerX, 40, 'center');
+  release() {
+    game.physics.p2.removeSpring(this.mouseSpring);
+    this.drawLine = false;
   }
 
   update () {
@@ -64,25 +54,15 @@ export default class Gameplay extends _State {
     if (this.input.keyboard.isDown(Phaser.Keyboard.O)) {
       this.player.destroy();
     }
-
-    if (this.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-      this.player.bankLeft();
-    } else if (this.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-      this.player.bankRight();
-    } else {
-      this.player.normal();
-    }
   }
 
   preRender() {
-
     if (this.line)
     {
         this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
     }
-
-}
- render() {
+  }
+  render() {
     if (this.drawLine)
     {
         game.debug.geom(this.line);
