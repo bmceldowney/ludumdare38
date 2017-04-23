@@ -12,7 +12,7 @@ export default class Gameplay extends _State {
     this.world.setBounds(0, 0, 480, 360);
     this.earth = DisplayObjects.earth(game, 460, 344)
     this.mars = DisplayObjects.mars(game, 20, 20)
-    this.ThrowableObject = GameObjects.throwable(game, this.world.centerx, this.world.centery); //Importing the ThrowableObject
+    this.ThrowableObject = GameObjects.throwable(game, 400, 300); //Importing the ThrowableObject
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y);
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON);
     this.line = new Phaser.Line(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
@@ -33,6 +33,7 @@ export default class Gameplay extends _State {
     else {
       this.ThrowableObject.body.x = x;
       this.ThrowableObject.body.y = y;
+
     }
   }
 
@@ -42,15 +43,25 @@ export default class Gameplay extends _State {
     if (bodies.length)
     {
         //  Attach to the first body the mouse hit
-        this.mouseSpring = game.physics.p2.createSpring(this.MouseObject, bodies[0], 0, 10, 5);
+        this.mouseSpring = game.physics.p2.createSpring(this.MouseObject, bodies[0], 0, 15, 5);
         this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
         this.drawLine = true;
+        this.ThrowableObject.body.setZeroVelocity();
+
+
+        /*this.ThrowableObject.ensableStatic();
+        this.ThrowableObject.static = true;
+        this.ThrowableObject.body.velocity[0] = 0;
+        this.ThrowableObject.body.angularForce = 0;*/
+
     }
   }
 
   release() {
+    //this.ThrowableObject.body.static = false;
     game.physics.p2.removeSpring(this.mouseSpring);
     this.drawLine = false;
+    //this.ThrowableObject.body.static = false;
   }
 
   update () {
@@ -61,7 +72,19 @@ export default class Gameplay extends _State {
     if (this.input.keyboard.isDown(Phaser.Keyboard.O)) {
       this.player.destroy();
     }
-  }
+    if(this.drawLine){
+      this.ThrowableObject.body.x = this.input.x;
+      this.ThrowableObject.body.y = this.input.y;
+
+    }
+
+    if(this.ThrowableObject.body.x > 485 || this.ThrowableObject.body.x < -5 || this.ThrowableObject.body.y < -5 || this.ThrowableObject.body.y >365){
+      this.object.destroy();
+      this.add.existing(this.ThrowableObject);  //Adding the throwable object
+    }
+
+
+}
 
   preRender() {
     if (this.line)
@@ -75,4 +98,6 @@ export default class Gameplay extends _State {
         game.debug.geom(this.line);
     }
   }
+
+
 }
