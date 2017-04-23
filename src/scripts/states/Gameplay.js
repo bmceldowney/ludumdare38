@@ -39,7 +39,7 @@ export default class Gameplay extends _State {
     if (bodies.length)
     {
         //  Attach to the first body the mouse hit
-        this.mouseSpring = game.physics.p2.createSpring(this.MouseObject, bodies[0], 0, 30, 1);
+        this.mouseSpring = game.physics.p2.createSpring(this.MouseObject, bodies[0], 0, 10, 5);
         this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
         //line.setTo(cow.x, cow.y, mouseBody.x, mouseBody.y);
         this.drawLine = true;
@@ -87,5 +87,5 @@ export default class Gameplay extends _State {
     {
         game.debug.geom(this.line);
     }
-}
+  }
 }
