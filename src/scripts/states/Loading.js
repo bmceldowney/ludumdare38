@@ -27,7 +27,8 @@ export default class Loading extends _State {
     GameObjects.load(this);
 
     ui.load(this.game, () => {
-        this.stateProvider.menu(this.state);
+        // this.stateProvider.menu(this.state);
+        this.stateProvider.gameplay(this.state);
     })
 
   }
