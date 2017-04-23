@@ -11,7 +11,29 @@
             "./top_left_border.png",
             "./top_middle_border.png",
             "./top_right_border.png",
-            "../Blocktopia_12pt.fnt"
+
+            "./button_top_left.png",
+            "./button_top_middle.png",
+            "./button_top_right.png",
+            "./button_middle_left.png",
+            "./button_middle_middle.png",
+            "./button_middle_right.png",
+            "./button_bottom_left.png",
+            "./button_bottom_middle.png",
+            "./button_bottom_right.png",
+
+            "./button_top_left_down.png",
+            "./button_top_middle_down.png",
+            "./button_top_right_down.png",
+            "./button_middle_left_down.png",
+            "./button_middle_middle_down.png",
+            "./button_middle_right_down.png",
+            "./button_bottom_left_down.png",
+            "./button_bottom_middle_down.png",
+            "./button_bottom_right_down.png",
+
+            "../Blocktopia_12pt.fnt",
+            "../Blocktopia_32pt.fnt"
         ]
     },
 
@@ -25,7 +47,7 @@
         "font": {
             "size": "12px",
             "family": "Blocktopia_12pt",
-            "color": "#32ff32"
+            "color": "#f0f0f0"
         }
     },
 
@@ -40,5 +62,18 @@
         "line-r": "./middle_right_border.png",
         "line-b": "./bottom_middle_border.png",
         "line-l": "./middle_left_border.png"
+    },
+
+    "Button": {
+        "bgPadding": 6,
+        "bg": { "default": "./button_middle_middle.png", "down": "button_middle_middle_down.png" },
+        "corner-tl": { "default": "./button_top_left.png", "down": "button_top_left_down.png"  },
+        "corner-tr": { "default": "./button_top_right.png", "down": "button_top_right_down.png"  },
+        "corner-bl": { "default": "./button_bottom_left.png", "down": "button_bottom_left_down.png"  },
+        "corner-br": { "default": "./button_bottom_right.png", "down": "button_bottom_right_down.png"  },
+        "line-t": { "default": "./button_top_middle.png", "down": "button_top_middle_down.png"  },
+        "line-r": { "default": "./button_middle_right.png", "down": "button_middle_right_down.png"  },
+        "line-b": { "default": "./button_bottom_middle.png", "down": "button_bottom_middle_down.png"  },
+        "line-l": { "default": "./button_middle_left.png", "down": "button_middle_left_down.png"  }
     }
 }

@@ -4,22 +4,22 @@ import DisplayObjects from '../display_objects';
 
 export default class Gameplay extends _State {
   create () {
+    this.background = DisplayObjects.background(game)
     game.physics.startSystem(Phaser.Physics.P2JS); //Starting the p2 physics
-    this.stage.backgroundColor = '#223344';
+    this.stage.backgroundColor = '#000000';
     game.physics.p2.restitution = 0.8;
-    this.world.setBounds(0, 0, 320, 288);
-    this.player = GameObjects.player(game, this.world.centerX, 60);
-    this.drawLine = false;
+    this.world.setBounds(0, 0, 480, 288);
+    this.earth = DisplayObjects.earth(game, 460, 264)
+    this.mars = DisplayObjects.mars(game, 20, 20)
     this.ThrowableObject = GameObjects.throwable(game, this.world.centerx, this.world.centery); //Importing the ThrowableObject
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y);
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON);
     this.line = new Phaser.Line(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
 
 
-    this.add.existing(this.titleText());
-    this.add.existing(this.player);
     this.add.existing(this.ThrowableObject);  //Adding the throwable object
     this.add.existing(this.MouseObject);
+
     //this.MouseObject = static;
     game.input.onDown.add(this.click, this);
     game.input.addMoveCallback(this.move, this);
@@ -63,14 +63,6 @@ export default class Gameplay extends _State {
 
     if (this.input.keyboard.isDown(Phaser.Keyboard.O)) {
       this.player.destroy();
-    }
-
-    if (this.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-      this.player.bankLeft();
-    } else if (this.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-      this.player.bankRight();
-    } else {
-      this.player.normal();
     }
   }
 
