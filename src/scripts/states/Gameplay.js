@@ -83,13 +83,9 @@ export default class Gameplay extends _State {
 
 }
  render() {
-
     if (this.drawLine)
     {
         game.debug.geom(this.line);
-    console.log("Game.debug");
-  }else
-    console.log("render");
-
- }
+    }
+}
 }
