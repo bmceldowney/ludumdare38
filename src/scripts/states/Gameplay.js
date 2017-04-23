@@ -15,8 +15,8 @@ export default class Gameplay extends _State {
     this.earth = DisplayObjects.earth(game, 460, 344)
 
     this.alien = GameObjects.alien(game, 100, 100)
-    this.car = GameObjects.throwable(game, this.world.centerX, this.world.centerY)
-    this.cow = GameObjects.cow(game, this.world.centerX, this.world.centerY)
+    this.car = GameObjects.throwable(game, this.world.centerX - 50, this.world.centerY - 50)
+    this.cow = GameObjects.cow(game, this.world.centerX + 50, this.world.centerY + 50)
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y)
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON)
     this.line = new Phaser.Line(this.MouseObject.body.x, this.MouseObject.body.y, this.car.body.x, this.car.body.y)
@@ -68,7 +68,7 @@ export default class Gameplay extends _State {
       const rads = Phaser.Math.angleBetweenPoints(this.MouseObject.body, this.car.body)
       this.car.body.x = x;
       this.car.body.y = y;
-      this.car.body.rotation = rads
+      this.car.body.rotation = rads - 1.57
     }
   }
 

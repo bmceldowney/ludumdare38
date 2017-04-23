@@ -22,6 +22,10 @@ export default class Alien extends Phaser.Sprite {
     }
 
     act () {
+        if (this.notAlive) {
+            return
+        }
+
         if (this.inRange) {
             this.shoot()
         } else {
@@ -47,6 +51,7 @@ export default class Alien extends Phaser.Sprite {
     }
 
     destroy () {
+        this.notAlive = true
         this.animations.play('splode', 10, false, true)
     }
 
