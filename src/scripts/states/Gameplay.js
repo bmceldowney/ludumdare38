@@ -7,9 +7,9 @@ export default class Gameplay extends _State {
     this.background = DisplayObjects.background(game)
     game.physics.startSystem(Phaser.Physics.P2JS); //Starting the p2 physics
     this.stage.backgroundColor = '#000000';
-    game.physics.p2.restitution = 0.8;
-    this.world.setBounds(0, 0, 480, 288);
-    this.earth = DisplayObjects.earth(game, 460, 264)
+    game.physics.p2.restitution = 1;
+    this.world.setBounds(0, 0, 480, 360);
+    this.earth = DisplayObjects.earth(game, 460, 344)
     this.mars = DisplayObjects.mars(game, 20, 20)
     this.ThrowableObject = GameObjects.throwable(game, this.world.centerx, this.world.centery); //Importing the ThrowableObject
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y);
@@ -20,20 +20,16 @@ export default class Gameplay extends _State {
     this.add.existing(this.ThrowableObject);  //Adding the throwable object
     this.add.existing(this.MouseObject);
 
-    //this.MouseObject = static;
     game.input.onDown.add(this.click, this);
     game.input.addMoveCallback(this.move, this);
     game.input.onUp.add(this.release, this);
- }
- move(pointer, x, y, isDown) {
+  }
+  move(pointer, x, y, isDown) {
     this.MouseObject.body.x = x;
     this.MouseObject.body.y = y;
-    //this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y)
-    //this.drawLine = true;
   }
 
   click(pointer) {
-
     var bodies = game.physics.p2.hitTest(pointer.position, [ this.ThrowableObject ]);
 
     if (bodies.length)
@@ -41,19 +37,13 @@ export default class Gameplay extends _State {
         //  Attach to the first body the mouse hit
         this.mouseSpring = game.physics.p2.createSpring(this.MouseObject, bodies[0], 0, 30, 1);
         this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
-        //line.setTo(cow.x, cow.y, mouseBody.x, mouseBody.y);
         this.drawLine = true;
     }
-
-}
-  release() {
-
-    game.physics.p2.removeSpring(this.mouseSpring);
-    this.drawLine = false;
   }
 
-  titleText () {
-    return DisplayObjects.displayFont(game, 'THIS IS THE GAME', this.world.centerX, 40, 'center');
+  release() {
+    game.physics.p2.removeSpring(this.mouseSpring);
+    this.drawLine = false;
   }
 
   update () {
@@ -67,17 +57,15 @@ export default class Gameplay extends _State {
   }
 
   preRender() {
-
     if (this.line)
     {
         this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.ThrowableObject.body.x, this.ThrowableObject.body.y);
     }
-
-}
- render() {
+  }
+  render() {
     if (this.drawLine)
     {
         game.debug.geom(this.line);
     }
-}
+  }
 }
