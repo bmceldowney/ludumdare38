@@ -2,10 +2,12 @@ export default class Planet extends Phaser.Group {
     constructor (game, x, y, imageKey, sadImageKey, outlineKey) {
         super(game)
 
+        this.health = 100
         this.planetGroup = new Phaser.Group(game)
         this.image = new Phaser.Image(game, 0, 0, imageKey)
         this.sadImage = new Phaser.Image(game, 0, 0, sadImageKey)
         this.outline = new Phaser.Image(game, 0, 0, outlineKey)
+        this.onPolluted = new Phaser.Signal()
 
         this.x = x
         this.y = y
@@ -26,8 +28,12 @@ export default class Planet extends Phaser.Group {
         this.game.time.events.loop(16, () => this.planetGroup.angle += 0.02)
     }
 
+    doDamage (value) {
+        this.health -= value
+        this.image.alpha = Math.max(this.health / 100, 0)
 
-    setDamageLevel (value) {
-        this.image.alpha = value
+        if (this.health < 1) {
+            this.onPolluted.dispatch()
+        }
     }
 }

@@ -1,22 +1,25 @@
 import _State from './_State';
 import GameObjects from '../game_objects';
 import DisplayObjects from '../display_objects';
+import ui from '../ui'
 
-const RANGE = 175
+const ALIEN_RANGE = 250
 
 export default class Gameplay extends _State {
   create () {
+    ui.gameOver.create(this)
     this.attached = false;
     this.background = DisplayObjects.background(game)
     game.physics.startSystem(Phaser.Physics.P2JS); //Starting the p2 physics
+    game.physics.p2.setBoundsToWorld(false, false, false, false, false);
     this.stage.backgroundColor = '#000000';
     game.physics.p2.restitution = 0.8;
     this.world.setBounds(0, 0, 480, 360);
     this.earth = DisplayObjects.earth(game, 460, 344)
 
     this.alien = GameObjects.alien(game, 100, 100)
-    this.car = GameObjects.throwable(game, this.world.centerX - 50, this.world.centerY - 50)
-    this.cow = GameObjects.cow(game, this.world.centerX + 50, this.world.centerY + 50)
+    this.car = GameObjects.throwable(game, this.world.centerX + 100, this.world.centerY + 70)
+    this.cow = GameObjects.cow(game, this.world.centerX + 150, this.world.centerY + 50)
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y)
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON)
     this.line = new Phaser.Line(this.MouseObject.body.x, this.MouseObject.body.y, this.car.body.x, this.car.body.y)
@@ -35,6 +38,15 @@ export default class Gameplay extends _State {
 
     this.alien.onMove.add(this.checkRange, this)
     this.alien.onShoot.add(this.throwTrash, this)
+    this.earth.onPolluted.addOnce(this.loseGame, this)
+  }
+
+  loseGame () {
+    ui.gameOver.show()
+    ui.gameOver.onStart(() => {
+      this.stateProvider.gameplay(this.state)
+    })
+
   }
 
   checkRange () {
@@ -45,14 +57,21 @@ export default class Gameplay extends _State {
 
     const distance = Phaser.Math.distance(sourceX, sourceY, targetX, targetY)
 
-    if (distance < RANGE) {
+    if (distance < ALIEN_RANGE) {
       this.alien.attack()
     }
   }
 
   throwTrash () {
-    this.add.existing(new GameObjects.trash(game, this.alien.x, this.alien.y))
+    const trash = new GameObjects.trash(game, this.alien.body.x, this.alien.body.y)
+    this.add.existing(trash)
+    const tween = this.game.add.tween(trash)
+    tween.to({x: this.earth.x, y: this.earth.y}, 1000, Phaser.Easing.Quadratic.Out, true)
 
+    tween.onComplete.add(() => {
+        trash.destroy()
+        this.earth.doDamage(5)
+    })
   }
 
   alienHit (collidedWith, alienBody) {
@@ -94,7 +113,7 @@ export default class Gameplay extends _State {
     const lineLength = Phaser.Math.distance(sourceX, sourceY, targetX, targetY)
 
     this.car.body.static = false
-    this.car.body.thrust(lineLength * 100)
+    this.car.body.thrust(lineLength * 200)
     this.drawLine = false
   }
 

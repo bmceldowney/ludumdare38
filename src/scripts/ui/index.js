@@ -1,4 +1,5 @@
 import menuDefinition from './components/menu'
+import gameOverDefinition from './components/gameOver'
 import theme from '../../assets/ui/theme.json'
 import DisplayObjects from '../display_objects';
 
@@ -30,6 +31,24 @@ export default {
             EZGUI.components.menu_button.on('click', () => {
                 cb()
                 this.menuScreen.destroy()
+            })
+        }
+    },
+
+    gameOver: {
+        create: function (game) {
+            this.gameOver = EZGUI.create(gameOverDefinition, 'ui-theme')
+            this.gameOver.visible = false
+        },
+
+        show: function () {
+            this.gameOver.visible = true
+        },
+
+        onStart: function (cb) {
+            EZGUI.components.menu_button.on('click', () => {
+                cb()
+                this.gameOver.destroy()
             })
         }
     }

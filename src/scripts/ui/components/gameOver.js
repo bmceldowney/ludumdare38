@@ -1,5 +1,5 @@
 export default {
-    id: 'menu',
+    id: 'gameOver',
     component: 'Window',
     draggable: false,
     position: { x: 100, y: 60 },
@@ -12,7 +12,7 @@ export default {
             id: 'menu_label',
             component: 'Label',
             position: { x: 40, y: 40 },
-            text: 'WELCOME TO\nTHE SMALLEST\nOF WORLDS',
+            text: 'THE EARTH\nIS\nUNLIVABLE.\nBAD JOB.',
             width: 200,
             padding: 10,
             height: 50,
@@ -27,7 +27,7 @@ export default {
             id: 'menu_button',
             component: 'Button',
             position: 'center',
-            text: 'Press for full immersion',
+            text: 'Try again',
             width: 160,
             height: 36
         }
