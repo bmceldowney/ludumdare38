@@ -4,6 +4,7 @@ import DisplayObjects from '../display_objects';
 
 export default class Gameplay extends _State {
   create () {
+    this.attached = false;
     this.background = DisplayObjects.background(game)
     game.physics.startSystem(Phaser.Physics.P2JS); //Starting the p2 physics
     this.stage.backgroundColor = '#000000';
@@ -25,8 +26,14 @@ export default class Gameplay extends _State {
     game.input.onUp.add(this.release, this);
   }
   move(pointer, x, y, isDown) {
-    this.MouseObject.body.x = x;
-    this.MouseObject.body.y = y;
+    if(!this.drawLine){
+      this.MouseObject.body.x = x;
+      this.MouseObject.body.y = y;
+    }
+    else {
+      this.ThrowableObject.body.x = x;
+      this.ThrowableObject.body.y = y;
+    }
   }
 
   click(pointer) {
