@@ -5,6 +5,7 @@ export default class Alien extends Phaser.Sprite {
     constructor (game, x, y, spritesheetKey) {
         super(game, x, y, spritesheetKey, 0)
         this.onMove = new Phaser.Signal()
+        this.onShoot = new Phaser.Signal()
 
         game.physics.p2.enable(this, false)
         this.body.static = true
@@ -55,6 +56,10 @@ export default class Alien extends Phaser.Sprite {
 
     attack () {
         this.inRange = true
+    }
+
+    shoot () {
+        this.onShoot.dispatch()
     }
 }
 

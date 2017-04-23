@@ -2,6 +2,7 @@ import Ship from './Ship'
 import ThrowableObject from './ThrowableObject'
 import MouseObject from './MouseObject'
 import Alien from './Alien'
+import Trash from './Trash'
 
 const PLAYER_SHIP = 'ship'
 const CAR1 = 'car1'
@@ -9,6 +10,7 @@ const ALIEN = 'alienSpriteSheet'
 const COW = 'spaceCow'
 const EXPLOSION = 'explosion'
 const FLING = 'fling';
+const TRASH = 'trash';
 
 module.exports = {
   load: function load (loader) {
@@ -17,6 +19,7 @@ module.exports = {
     loader.load.spritesheet(ALIEN, 'alien.png', 16, 16)
     loader.load.spritesheet(COW, 'spaceCow.png', 16, 16)
     loader.load.spritesheet(FLING, 'fling.png', 16, 16);
+    loader.load.spritesheet(TRASH, 'trash.png', 8, 8);
   },
 
   player: function player (game, x, y) {
@@ -37,5 +40,9 @@ module.exports = {
 
   alien: function alien (game, x, y) {
     return new Alien(game, x, y, ALIEN)
+  },
+
+  trash: function trash (game, x, y) {
+    return new Trash(game, x, y, TRASH)
   }
 }

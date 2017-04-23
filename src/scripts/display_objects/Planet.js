@@ -5,7 +5,7 @@ export default class Planet extends Phaser.Group {
         this.planetGroup = new Phaser.Group(game)
         this.image = new Phaser.Image(game, 0, 0, imageKey)
         this.sadImage = new Phaser.Image(game, 0, 0, sadImageKey)
-        this.outline = new Phaser.Image(game, x, y, outlineKey)
+        this.outline = new Phaser.Image(game, 0, 0, outlineKey)
 
         this.x = x
         this.y = y
