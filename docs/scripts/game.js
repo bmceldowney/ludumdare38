@@ -1703,7 +1703,7 @@
 	        id: 'menu_instructions_label_2',
 	        component: 'Label',
 	        position: { x: 40, y: 40 },
-	        text: 'The mothership is too powerful for you\nto do any real damage, but she cares\nabout her babies.\n\nVanquish enough of them and she will\nbecome depressed and give up.',
+	        text: 'The mothership is too powerful for you\nto do any real damage, but she cares\nabout her minions.\n\nVanquish enough of them and she will\nbecome depressed and give up.',
 	        width: 200,
 	        padding: 10,
 	        height: 100,
