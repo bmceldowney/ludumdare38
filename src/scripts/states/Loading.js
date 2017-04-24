@@ -2,6 +2,7 @@ import _State from './_State';
 import DisplayObjects from '../display_objects';
 import GameObjects from '../game_objects';
 import ui from '../ui'
+import Sounds from '../sounds';
 
 export default class Loading extends _State {
   init () {
@@ -23,6 +24,7 @@ export default class Loading extends _State {
   }
 
   preload () {
+    Sounds.loadResources(this);
     DisplayObjects.load(this);
     GameObjects.load(this);
 

@@ -1,16 +1,15 @@
 export default class ThrowableObject extends Phaser.Sprite {
   constructor(game, x, y, key){
-    super(game, x, y, key);
-    game.physics.p2.enable(this, false);
-    this.body.collideWorldBounds = false;
+    super(game, x, y, key)
+    this.anchor.setTo(0.5, 0.5)
 
-    this.body.setCircle(10);
+    game.physics.p2.enable(this, false)
   }
 
-  enableStatic(){
-    this.body.static = true;
-  }
-  disableStatic(){
-    this.body.static = false;
+  ready () {
+      this.body.collideWorldBounds = false
+
+      this.body.setCircle(10)
+      this.body.static = false
   }
 }

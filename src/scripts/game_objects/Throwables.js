@@ -26,9 +26,8 @@ export default class Throwables extends Phaser.Group {
                 this.index++
             }
         } else {
-            child.reset()
-            child.body.x = this.childX
-            child.body.y = this.childY
+            child.reset(this.childX, this.childY)
+            child.body.static = true
         }
 
         return child

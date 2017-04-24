@@ -51,12 +51,23 @@ export default class Gameplay extends _State {
   spawnNewThrowable () {
     const throwable = this.throwables.spawn()
     if (throwable) {
-      throwable.body.static = true
-      throwable.body.x -= this.stagingPoints[throwable.index].x
-      throwable.body.y -= this.stagingPoints[throwable.index].y
-      throwable.rotation = 0
-      throwable.body.static = false
-      this.earth.doDamage(-1)
+      throwable.scale.setTo(0.1, 0.1)
+
+      const scaleTween = this.game.add.tween(throwable.scale)
+      const positionTween = this.game.add.tween(throwable.body)
+      const x = throwable.x - this.stagingPoints[throwable.index].x
+      const y = throwable.y - this.stagingPoints[throwable.index].y
+
+      scaleTween.to({x: 1, y: 1}, 400, Phaser.Easing.Quadratic.Out, true)
+      positionTween.to({x: x, y: y}, 400, Phaser.Easing.Quadratic.Out, true)
+
+      scaleTween.onComplete.add(() => {
+        throwable.rotation = 0
+
+        throwable.ready()
+        this.earth.doDamage(-1)
+      })
+
     }
   }
 
@@ -99,7 +110,6 @@ export default class Gameplay extends _State {
     tween.onComplete.add(() => {
         trash.destroy()
         this.earth.doDamage(7)
-        console.log(this.earth.health)
     })
   }
 
@@ -107,7 +117,9 @@ export default class Gameplay extends _State {
     this.onMove.removeAll()
     this.onShoot.removeAll()
     this.splode()
-    collidedWith.sprite.kill()
+    if (collidedWith.sprite.exists) {
+      collidedWith.sprite.kill()
+    }
   }
 
   move (pointer, x, y, isDown) {
@@ -152,7 +164,7 @@ export default class Gameplay extends _State {
 
   update () {
     this.throwables.forEach(throwable => {
-      if (!this.world.bounds.contains(throwable.body.x, throwable.body.y)) {
+      if (!this.world.bounds.contains(throwable.x, throwable.y) && throwable.exists) {
         throwable.kill()
       }
     })
