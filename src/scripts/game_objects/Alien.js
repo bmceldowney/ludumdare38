@@ -41,16 +41,21 @@ export default class Alien extends Phaser.Sprite {
         const centerX = this.body.x
         const centerY = this.body.y
         const destination = pointInBounds(game, centerX, centerY)
-        const tween = this.game.add.tween(this.body)
+        this.tween = this.game.add.tween(this.body)
 
-        tween.onComplete.add(() => {
+        this.tween.onComplete.add(() => {
             this.onMove.dispatch()
+            this.tween = null
         })
 
-        tween.to({x: destination.x, y: destination.y}, DURATION, Phaser.Easing.Quadratic.Out, true)
+        this.tween.to({x: destination.x, y: destination.y}, DURATION, Phaser.Easing.Quadratic.Out, true)
     }
 
     destroy () {
+        if (this.tween) {
+            this.tween.stop()
+            this.tween = null
+        }
         this.notAlive = true
         this.animations.play('splode', 10, false, true)
     }

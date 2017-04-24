@@ -1,0 +1,21 @@
+{
+
+    "motherShip": [
+
+        {
+            "density": 2, "friction": 0, "bounce": 0,
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   52, 31  ,  58, 50  ,  13, 31  ,  17, 21  ,  32, 16  ,  45, 19  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0,
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   0, 39  ,  13, 31  ,  58, 50  ,  40, 55  ,  24, 55  ,  6, 50  ,  0, 44  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0,
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   58, 50  ,  52, 31  ,  64, 39  ,  64, 44  ]
+        }
+    ]
+}

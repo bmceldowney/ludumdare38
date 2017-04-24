@@ -4,6 +4,7 @@ import MouseObject from './MouseObject'
 import Alien from './Alien'
 import Trash from './Trash'
 import Throwables from './Throwables'
+import Enemies from './Enemies'
 import Mothership from './Mothership'
 
 const PLAYER_SHIP = 'ship'
@@ -24,6 +25,7 @@ module.exports = {
     loader.load.spritesheet(FLING, 'fling.png', 16, 16);
     loader.load.spritesheet(TRASH, 'trash.png', 8, 8);
     loader.load.spritesheet(MOTHERSHIP, 'motherShip.png', 64, 64, 2);
+    loader.load.physics('physicsData', 'mothership.json');
   },
 
   mothership: function mothership (game, x, y){
@@ -56,5 +58,9 @@ module.exports = {
 
   throwables: function throwables (game, x, y) {
     return new Throwables(game, x, y, [CAR1, COW])
+  },
+
+  enemies: function enemies (game, x, y) {
+    return new Enemies(game, ALIEN)
   }
 }

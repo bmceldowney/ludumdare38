@@ -17,15 +17,16 @@ export default class Gameplay extends _State {
     game.physics.p2.restitution = 0.8;
 
     this.world.setBounds(0, 0, 480, 360);
-    this.earth = DisplayObjects.earth(game, 460, 344)
-    this.throwables = GameObjects.throwables(game, 460, 344)
+    this.earth = DisplayObjects.earth(game, 380, 264)
+    this.throwables = GameObjects.throwables(game, this.earth.x, this.earth.y)
+    this.enemies = GameObjects.enemies(game)
 
     this.motherShip = GameObjects.mothership(game, 50, 50);
-    this.alien = GameObjects.alien(game, 100, 100)
+    // this.alien = GameObjects.alien(game, 100, 100)
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y)
-    this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON)
+    // this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON)
 
-    this.alien.body.onBeginContact.add(this.alienHit, this.alien)
+    // this.alien.body.onBeginContact.add(this.alienHit, this.alien)
 
     this.stagingPoints = [
       new Phaser.Point(50, 50),
@@ -38,25 +39,37 @@ export default class Gameplay extends _State {
 
     this.add.existing(this.motherShip);
     this.add.existing(this.MouseObject);
-    this.add.existing(this.alien);
+    // this.add.existing(this.alien);
 
     game.input.onDown.add(this.click, this);
     game.input.addMoveCallback(this.move, this);
 
-    this.alien.onMove.add(this.checkRange, this)
-    this.alien.onShoot.add(this.throwTrash, this)
+    // this.alien.onMove.add(this.checkRange, this)
+    // this.alien.onShoot.add(this.throwTrash, this)
     this.earth.onPolluted.addOnce(this.loseGame, this)
 
+    this.spawnNewAlien()
     this.game.time.events.loop(1500, () => {
         this.spawnNewThrowable()
+        this.spawnNewAlien()
     })
   }
 
   spawnNewThrowable () {
     const pos = game.rnd.integerInRange(0, 2)
     const throwable = this.throwables.spawn()
-    throwable.body.x -= this.stagingPoints[pos].x
-    throwable.body.y -= this.stagingPoints[pos].y
+    if (throwable) {
+      throwable.body.x -= this.stagingPoints[pos].x
+      throwable.body.y -= this.stagingPoints[pos].y
+    }
+  }
+
+  spawnNewAlien () {
+    const enemy = this.enemies.spawn()
+    if (enemy) {
+      enemy.body.x = 100
+      enemy.body.y = 100
+    }
   }
 
   loseGame () {
@@ -67,15 +80,15 @@ export default class Gameplay extends _State {
   }
 
   checkRange () {
-    const sourceX = this.alien.x
-    const sourceY = this.alien.y
+    // const sourceX = this.alien.x
+    // const sourceY = this.alien.y
     const targetX = this.earth.x
     const targetY = this.earth.y
 
     const distance = Phaser.Math.distance(sourceX, sourceY, targetX, targetY)
 
     if (distance < ALIEN_RANGE) {
-      this.alien.attack()
+      // this.alien.attack()
     }
   }
 

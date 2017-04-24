@@ -6,11 +6,11 @@ export default class Planet extends Phaser.Group {
         this.planetGroup = new Phaser.Group(game)
         this.image = new Phaser.Image(game, 0, 0, imageKey)
         this.sadImage = new Phaser.Image(game, 0, 0, sadImageKey)
-        this.outline = new Phaser.Image(game, 0, 0, outlineKey)
+        this.outline = new Phaser.Sprite(game, 0, 0, outlineKey)
         this.onPolluted = new Phaser.Signal()
-
         this.x = x
         this.y = y
+
         this.planetGroup.anchor = new Phaser.Point(0.5, 0.5)
         this.image.anchor = new Phaser.Point(0.5, 0.5)
         this.sadImage.anchor = new Phaser.Point(0.5, 0.5)
