@@ -90,7 +90,6 @@ export default class Alien extends Phaser.Sprite {
     }
 
     shoot () {
-        this.game.sound.play('trash', 0.5)
         this.onShoot.dispatch()
     }
 }

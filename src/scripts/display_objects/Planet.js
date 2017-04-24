@@ -31,6 +31,8 @@ export default class Planet extends Phaser.Group {
     }
 
     doDamage (value) {
+        if (this.invincible) return
+
         this.health -= value
         this.health = Math.min(this.health, MAX_HEALTH)
         this.image.alpha = Math.max(this.health / MAX_HEALTH, 0)

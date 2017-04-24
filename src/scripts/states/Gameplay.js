@@ -9,6 +9,7 @@ const REQUIRED_SCORE = 20
 export default class Gameplay extends _State {
   create () {
     ui.gameOver.create(this)
+    ui.win.create(this)
     this.attached = false;
     this.background = DisplayObjects.background(game)
     this.stage.backgroundColor = '#000000';
@@ -53,12 +54,22 @@ export default class Gameplay extends _State {
   }
 
   win () {
+    let successLevel = 3
+    if (this.earth.health > 80) {
+      successLevel = 1
+    } else if (this.earth.health > 45) {
+      successLevel = 2
+    }
 
+    ui.win.show(successLevel, () => {
+      this.stateProvider.gameplay(this.state)
+    })
   }
 
   spawnNewThrowable () {
     const throwable = this.throwables.spawn()
     if (throwable) {
+      this.game.sound.play('jettison', 0.25)
       throwable.scale.setTo(0.1, 0.1)
 
       const scaleTween = this.game.add.tween(throwable.scale)
@@ -114,10 +125,12 @@ export default class Gameplay extends _State {
     this.add.existing(trash)
     const tween = this.game.add.tween(trash)
     tween.to({x: this.earth.x, y: this.earth.y}, 1000, Phaser.Easing.Quadratic.Out, true)
+    this.game.sound.play('trash', 0.35)
 
     tween.onComplete.add(() => {
         trash.destroy()
         this.earth.doDamage(7)
+        this.game.sound.play('trashHit', 0.35)
     })
   }
 
@@ -164,7 +177,7 @@ export default class Gameplay extends _State {
     const targetY = this.MouseObject.body.y
 
     const lineLength = Phaser.Math.distance(sourceX, sourceY, targetX, targetY)
-    this.game.sound.play('shoot', 0.5)
+    this.game.sound.play('shoot', 0.35)
 
     this.draggingBody.static = false
     this.draggingBody.thrust(lineLength * 400)
@@ -184,9 +197,11 @@ export default class Gameplay extends _State {
       this.motherShip.anger()
     }
 
-    if (this.score > REQUIRED_SCORE) {
+    if (this.score > REQUIRED_SCORE && !this.earth.invincible) {
       this.enemies.splode()
       this.motherShip.flee()
+      this.game.sound.play('flee', 0.45)
+      this.earth.invincible = true
     }
   }
 

@@ -12,6 +12,9 @@ export default {
     game.load.audio('explosion_1', 'explosion_1.wav', true)
     game.load.audio('explosion_2', 'explosion_2.wav', true)
     game.load.audio('explosion_3', 'explosion_3.wav', true)
+    game.load.audio('jettison', 'jettison.wav', true)
+    game.load.audio('flee', 'flee.wav', true)
+    game.load.audio('trashHit', 'trashHit.wav', true)
   },
 
   init: () => {
