@@ -21,17 +21,17 @@ module.exports = {
   load: function load (loader) {
     const images = {}
 
-    images[PROGRESS_LEFT] = '../../progress_left.png'
-    images[PROGRESS_MID] = '../../progress_mid.png'
-    images[PROGRESS_RIGHT] = '../../progress_right.png'
-    images[PROGRESS_RED_FILL] = '../../progress_red_fill.png'
-    images[SPACE_1] = '../../space_1.png'
-    images[SPACE_2] = '../../dust.png'
-    images[SPACE_3] = '../../space_3.png'
-    images[SPACE_4] = '../../space_4.png'
-    images[EARTH] = '../../world3.png'
-    images[SAD_EARTH] = '../../world4.png'
-    images[PLANET_OUTLINE] = '../../world_outline.png'
+    images[PROGRESS_LEFT] = 'progress_left.png'
+    images[PROGRESS_MID] = 'progress_mid.png'
+    images[PROGRESS_RIGHT] = 'progress_right.png'
+    images[PROGRESS_RED_FILL] = 'progress_red_fill.png'
+    images[SPACE_1] = 'space_1.png'
+    images[SPACE_2] = 'dust.png'
+    images[SPACE_3] = 'space_3.png'
+    images[SPACE_4] = 'space_4.png'
+    images[EARTH] = 'world3.png'
+    images[SAD_EARTH] = 'world4.png'
+    images[PLANET_OUTLINE] = 'world_outline.png'
 
     loader.load.bitmapFont(DISPLAY_FONT, 'Blocktopia_32pt.png', 'Blocktopia_32pt.fnt')
     loader.load.bitmapFont(BODY_FONT, 'Blocktopia_12pt.png', 'Blocktopia_12pt.fnt')
