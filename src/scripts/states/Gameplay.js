@@ -29,12 +29,9 @@ export default class Gameplay extends _State {
 
     this.stagingPoints = [
       new Phaser.Point(50, 50),
-      new Phaser.Point(60, 40),
-      new Phaser.Point(30, 60)
+      new Phaser.Point(60, 30),
+      new Phaser.Point(20, 60)
     ]
-
-    // this.add.existing(this.car);
-    // this.add.existing(this.cow);
 
     this.line = new Phaser.Line()
     this.draggingBody = null;
@@ -43,10 +40,8 @@ export default class Gameplay extends _State {
     this.add.existing(this.MouseObject);
     this.add.existing(this.alien);
 
-
     game.input.onDown.add(this.click, this);
     game.input.addMoveCallback(this.move, this);
-
 
     this.alien.onMove.add(this.checkRange, this)
     this.alien.onShoot.add(this.throwTrash, this)
