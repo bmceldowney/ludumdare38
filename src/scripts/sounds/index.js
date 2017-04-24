@@ -7,10 +7,11 @@ export default {
     game = state.game
     game.load.audio('menuSong', 'fantasy_game_loop.wav', true)
     // game.load.audio('gameOverSong', 'assets/looperman-l-1319133-0090841-fanto8bc-julian-8-bit.wav', true)
-    // game.load.audio('brickImpact', 'assets/brick_impact.wav', true)
-    // game.load.audio('throwBrick', 'assets/throw_brick.wav', true)
-    // game.load.audio('alienAttack', 'assets/alien_attack.wav', true)
-    // game.load.audio('stageComplete', 'assets/stage_complete.wav', true)
+    game.load.audio('shoot', 'shoot.wav', true)
+    game.load.audio('trash', 'trash.wav', true)
+    game.load.audio('explosion_1', 'explosion_1.wav', true)
+    game.load.audio('explosion_2', 'explosion_2.wav', true)
+    game.load.audio('explosion_3', 'explosion_3.wav', true)
   },
 
   init: () => {

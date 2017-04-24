@@ -4,6 +4,7 @@ import DisplayObjects from '../display_objects';
 import ui from '../ui'
 
 const ALIEN_RANGE = 200
+const REQUIRED_SCORE = 30
 
 export default class Gameplay extends _State {
   create () {
@@ -12,8 +13,8 @@ export default class Gameplay extends _State {
     this.background = DisplayObjects.background(game)
     this.stage.backgroundColor = '#000000';
 
-    game.physics.startSystem(Phaser.Physics.P2JS); //Starting the p2 physics
-    game.physics.p2.setBoundsToWorld(false, false, false, false, false);
+    game.physics.startSystem(Phaser.Physics.P2JS)
+    game.physics.p2.setBoundsToWorld(false, false, false, false, false)
     game.physics.p2.restitution = 0.8;
 
     this.world.setBounds(0, 0, 480, 360);
@@ -26,8 +27,8 @@ export default class Gameplay extends _State {
 
     this.stagingPoints = [
       new Phaser.Point(50, 50),
-      new Phaser.Point(70, 0),
-      new Phaser.Point(0, 70)
+      new Phaser.Point(70, -20),
+      new Phaser.Point(0, 90)
     ]
 
     this.line = new Phaser.Line()
@@ -155,6 +156,7 @@ export default class Gameplay extends _State {
     const targetY = this.MouseObject.body.y
 
     const lineLength = Phaser.Math.distance(sourceX, sourceY, targetX, targetY)
+    this.game.sound.play('shoot', 0.5)
 
     this.draggingBody.static = false
     this.draggingBody.thrust(lineLength * 400)

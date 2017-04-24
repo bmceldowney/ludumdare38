@@ -1,5 +1,6 @@
 const DURATION = 100
 const DISTANCE = 64
+const MAX_IDLE_MOVES = 5
 
 export default class Alien extends Phaser.Sprite {
     constructor (game, x, y, spritesheetKey) {
@@ -23,6 +24,7 @@ export default class Alien extends Phaser.Sprite {
     init () {
         this.inRange = false
         this.notAlive = false
+        this.idleMoves = 0
         this.animations.play('idle')
     }
 
@@ -45,7 +47,13 @@ export default class Alien extends Phaser.Sprite {
     move () {
         const centerX = this.body.x
         const centerY = this.body.y
-        const destination = pointInBounds(game, centerX, centerY)
+        let destination
+        if (this.idleMoves > MAX_IDLE_MOVES) {
+            destination = pointTowardsTarget(game, centerX, centerY)
+        } else {
+            destination = pointInBounds(game, centerX, centerY)
+        }
+
         this.tween = this.game.add.tween(this.body)
 
         this.tween.onComplete.add(() => {
@@ -54,9 +62,13 @@ export default class Alien extends Phaser.Sprite {
         })
 
         this.tween.to({x: destination.x, y: destination.y}, DURATION, Phaser.Easing.Quadratic.Out, true)
+        this.idleMoves++
     }
 
     splode () {
+        const suffix = game.rnd.integerInRange(1, 3)
+
+        this.game.sound.play(`explosion_${suffix}`, 0.5)
         if (this.tween) {
             this.tween.stop()
             this.tween = null
@@ -78,8 +90,17 @@ export default class Alien extends Phaser.Sprite {
     }
 
     shoot () {
+        this.game.sound.play('trash', 0.5)
         this.onShoot.dispatch()
     }
+}
+
+function pointTowardsTarget (game, centerX, centerY) {
+    const angle = Phaser.Math.angleBetweenPoints({ x: centerX, y: centerY }, { x: 480, y: 360})
+    const x = centerX + (DISTANCE * Math.cos(angle))
+    const y = centerY + (DISTANCE * Math.sin(angle))
+
+    return { x, y }
 }
 
 function pointInBounds (game, centerX, centerY) {
@@ -93,8 +114,5 @@ function pointInBounds (game, centerX, centerY) {
         y = centerY + (DISTANCE * Math.sin(angle))
     }
 
-    return {
-        x,
-        y
-    }
+    return { x, y }
 }
