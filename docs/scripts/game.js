@@ -1878,8 +1878,8 @@
 				"./button_bottom_left_down.png",
 				"./button_bottom_middle_down.png",
 				"./button_bottom_right_down.png",
-				"../Blocktopia_12pt.fnt",
-				"../Blocktopia_32pt.fnt"
+				"./Blocktopia_12pt.fnt",
+				"./Blocktopia_32pt.fnt"
 			]
 		},
 		"default": {
