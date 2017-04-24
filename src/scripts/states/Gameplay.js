@@ -27,16 +27,24 @@ export default class Gameplay extends _State {
 
     this.alien.body.onBeginContact.add(this.alienHit, this.alien)
 
+    this.stagingPoints = [
+      new Phaser.Point(50, 50),
+      new Phaser.Point(60, 40),
+      new Phaser.Point(30, 60)
+    ]
+
     // this.add.existing(this.car);
     // this.add.existing(this.cow);
-    // this.line = new Phaser.Line(this.MouseObject.body.x, this.MouseObject.body.y, this.car.body.x, this.car.body.y)
+
+    this.line = new Phaser.Line()
+    this.draggingBody = null;
 
     this.add.existing(this.motherShip);
     this.add.existing(this.MouseObject);
     this.add.existing(this.alien);
 
 
-    game.input.onDown.addOnce(this.click, this);
+    game.input.onDown.add(this.click, this);
     game.input.addMoveCallback(this.move, this);
 
 
@@ -44,7 +52,16 @@ export default class Gameplay extends _State {
     this.alien.onShoot.add(this.throwTrash, this)
     this.earth.onPolluted.addOnce(this.loseGame, this)
 
-    this.throwables.spawn()
+    this.game.time.events.loop(1500, () => {
+        this.spawnNewThrowable()
+    })
+  }
+
+  spawnNewThrowable () {
+    const pos = game.rnd.integerInRange(0, 2)
+    const throwable = this.throwables.spawn()
+    throwable.body.x -= this.stagingPoints[pos].x
+    throwable.body.y -= this.stagingPoints[pos].y
   }
 
   loseGame () {
@@ -52,7 +69,6 @@ export default class Gameplay extends _State {
     ui.gameOver.onStart(() => {
       this.stateProvider.gameplay(this.state)
     })
-
   }
 
   checkRange () {
@@ -88,48 +104,49 @@ export default class Gameplay extends _State {
     if(!this.drawLine){
       this.MouseObject.body.x = x;
       this.MouseObject.body.y = y;
-    }
-    else {
-      const rads = Phaser.Math.angleBetweenPoints(this.MouseObject.body, this.car.body)
-      this.car.body.x = x;
-      this.car.body.y = y;
-      this.car.body.rotation = rads - 1.57
+    } else {
+      const rads = Phaser.Math.angleBetweenPoints(this.MouseObject.body, this.draggingBody)
+      this.draggingBody.x = x;
+      this.draggingBody.y = y;
+      this.draggingBody.rotation = rads - 1.57
     }
   }
 
   click (pointer) {
     var bodies = game.physics.p2.hitTest(pointer.position, this.throwables.children)
-    if (bodies.length)
-    {
-      console.log("item!!!")
-      this.car.body.static = true
-      this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.car.body.x, this.car.body.y)
+
+    if (bodies.length) {
+      const body = bodies[0].parent
+      body.static = true
+      this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, body.x, body.y)
       this.drawLine = true
-      this.car.body.setZeroVelocity()
+      body.setZeroVelocity()
+      this.draggingBody = body
       this.game.input.onUp.addOnce(this.release, this)
     }
   }
 
   release () {
-    const sourceX = this.car.body.x
-    const sourceY = this.car.body.y
+    const sourceX = this.draggingBody.x
+    const sourceY = this.draggingBody.y
     const targetX = this.MouseObject.body.x
     const targetY = this.MouseObject.body.y
 
     const lineLength = Phaser.Math.distance(sourceX, sourceY, targetX, targetY)
 
-    this.car.body.static = false
-    this.car.body.thrust(lineLength * 200)
+    this.draggingBody.static = false
+    this.draggingBody.thrust(lineLength * 200)
     this.drawLine = false
+    this.draggingBody = null
   }
 
   update () {
   }
 
   preRender () {
-    if (this.line)
+    if (this.line && this.draggingBody)
     {
-        this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.car.body.x, this.car.body.y);
+        this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.draggingBody.x, this.draggingBody.y);
     }
   }
 

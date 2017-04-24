@@ -4,8 +4,8 @@ export default class Throwables extends Phaser.Group {
     constructor (game, x, y, childTypes) {
         super(game)
         this.childTypes = childTypes
-        this.x = x
-        this.y = y
+        this.childX = x
+        this.childY = y
     }
 
     spawn () {
@@ -13,7 +13,7 @@ export default class Throwables extends Phaser.Group {
         const typeIndex = game.rnd.integerInRange(0, this.childTypes.length - 1)
 
         if (!child) {
-            child =  new ThrowableObject(this.game, 0, 0, this.childTypes[typeIndex])
+            child =  new ThrowableObject(this.game, this.childX, this.childY, this.childTypes[typeIndex])
             this.add(child)
         } else {
             child.reset()
