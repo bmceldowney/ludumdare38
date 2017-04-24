@@ -47,8 +47,8 @@ export default {
 
         onStart: function (cb) {
             EZGUI.components.menu_button.on('click', () => {
+                this.gameOver.visible = false
                 cb()
-                this.gameOver.destroy()
             })
         }
     }

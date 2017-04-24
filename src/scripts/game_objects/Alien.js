@@ -13,12 +13,21 @@ export default class Alien extends Phaser.Sprite {
         this.body.data.shapes[0].sensor = true
         this.animations.add('idle',  [0, 1, 2, 3], 6, true)
         this.animations.add('splode',  [4, 5, 7, 8, 10, 11], 10, false)
-        this.animations.play('idle')
-        this.inRange = false
-
         this.game.time.events.loop(1500, () => {
             this.act()
         })
+
+        this.init()
+    }
+
+    init () {
+        this.inRange = false
+        this.notAlive = false
+        this.animations.play('idle')
+    }
+
+    update () {
+
     }
 
     act () {
@@ -31,10 +40,6 @@ export default class Alien extends Phaser.Sprite {
         } else {
             this.move()
         }
-    }
-
-    shoot () {
-
     }
 
     move () {
@@ -51,17 +56,21 @@ export default class Alien extends Phaser.Sprite {
         this.tween.to({x: destination.x, y: destination.y}, DURATION, Phaser.Easing.Quadratic.Out, true)
     }
 
-    destroy () {
+    splode () {
         if (this.tween) {
             this.tween.stop()
             this.tween = null
         }
         this.notAlive = true
-        this.animations.play('splode', 10, false, true)
+        const anim = this.animations.play('splode', 10, false, true)
+        anim.onComplete.addOnce(() => {
+            this.kill()
+        })
     }
 
     regen () {
         this.reset(100, 100, 100)
+        this.init()
     }
 
     attack () {

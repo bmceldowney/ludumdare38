@@ -61,6 +61,6 @@ module.exports = {
   },
 
   enemies: function enemies (game, x, y) {
-    return new Enemies(game, ALIEN)
+    return new Enemies(game, x, y, ALIEN)
   }
 }

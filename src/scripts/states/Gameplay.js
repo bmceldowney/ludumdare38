@@ -19,33 +19,28 @@ export default class Gameplay extends _State {
     this.world.setBounds(0, 0, 480, 360);
     this.earth = DisplayObjects.earth(game, 380, 264)
     this.throwables = GameObjects.throwables(game, this.earth.x, this.earth.y)
-    this.enemies = GameObjects.enemies(game)
+    this.enemies = GameObjects.enemies(game, 100, 100)
 
     this.motherShip = GameObjects.mothership(game, 50, 50);
-    // this.alien = GameObjects.alien(game, 100, 100)
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y)
-    // this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON)
-
-    // this.alien.body.onBeginContact.add(this.alienHit, this.alien)
 
     this.stagingPoints = [
       new Phaser.Point(50, 50),
-      new Phaser.Point(60, 30),
-      new Phaser.Point(20, 60)
+      new Phaser.Point(70, 0),
+      new Phaser.Point(0, 70)
     ]
+
+    this.stagingIndicies = 0
 
     this.line = new Phaser.Line()
     this.draggingBody = null;
 
     this.add.existing(this.motherShip);
     this.add.existing(this.MouseObject);
-    // this.add.existing(this.alien);
 
     game.input.onDown.add(this.click, this);
     game.input.addMoveCallback(this.move, this);
 
-    // this.alien.onMove.add(this.checkRange, this)
-    // this.alien.onShoot.add(this.throwTrash, this)
     this.earth.onPolluted.addOnce(this.loseGame, this)
 
     this.spawnNewAlien()
@@ -56,11 +51,17 @@ export default class Gameplay extends _State {
   }
 
   spawnNewThrowable () {
-    const pos = game.rnd.integerInRange(0, 2)
     const throwable = this.throwables.spawn()
     if (throwable) {
-      throwable.body.x -= this.stagingPoints[pos].x
-      throwable.body.y -= this.stagingPoints[pos].y
+      if (throwable.stagingIndex === undefined) {
+        throwable.stagingIndex = this.stagingIndicies
+        this.stagingIndicies++
+      }
+      throwable.body.static = true
+      throwable.body.x -= this.stagingPoints[throwable.stagingIndex].x
+      throwable.body.y -= this.stagingPoints[throwable.stagingIndex].y
+      throwable.rotation = 0
+      throwable.body.static = false
     }
   }
 
@@ -69,6 +70,9 @@ export default class Gameplay extends _State {
     if (enemy) {
       enemy.body.x = 100
       enemy.body.y = 100
+      enemy.onMove.add(this.checkRange, this, 0, enemy)
+      enemy.onShoot.add(this.throwTrash, this, 0, enemy)
+      enemy.body.onBeginContact.add(this.alienHit, enemy)
     }
   }
 
@@ -79,21 +83,21 @@ export default class Gameplay extends _State {
     })
   }
 
-  checkRange () {
-    // const sourceX = this.alien.x
-    // const sourceY = this.alien.y
+  checkRange (enemy) {
+    const sourceX = enemy.x
+    const sourceY = enemy.y
     const targetX = this.earth.x
     const targetY = this.earth.y
 
     const distance = Phaser.Math.distance(sourceX, sourceY, targetX, targetY)
 
     if (distance < ALIEN_RANGE) {
-      // this.alien.attack()
+      enemy.attack()
     }
   }
 
-  throwTrash () {
-    const trash = new GameObjects.trash(game, this.alien.body.x, this.alien.body.y)
+  throwTrash (enemy) {
+    const trash = new GameObjects.trash(game, enemy.body.x, enemy.body.y)
     this.add.existing(trash)
     const tween = this.game.add.tween(trash)
     tween.to({x: this.earth.x, y: this.earth.y}, 1000, Phaser.Easing.Quadratic.Out, true)
@@ -101,11 +105,15 @@ export default class Gameplay extends _State {
     tween.onComplete.add(() => {
         trash.destroy()
         this.earth.doDamage(5)
+        console.log(this.earth.health)
     })
   }
 
   alienHit (collidedWith, alienBody) {
-    this.destroy()
+    this.onMove.removeAll()
+    this.onShoot.removeAll()
+    this.splode()
+    collidedWith.sprite.kill()
   }
 
   move (pointer, x, y, isDown) {
@@ -143,12 +151,17 @@ export default class Gameplay extends _State {
     const lineLength = Phaser.Math.distance(sourceX, sourceY, targetX, targetY)
 
     this.draggingBody.static = false
-    this.draggingBody.thrust(lineLength * 200)
+    this.draggingBody.thrust(lineLength * 400)
     this.drawLine = false
     this.draggingBody = null
   }
 
   update () {
+    this.throwables.forEach(throwable => {
+      if (!this.world.bounds.contains(throwable.body.x, throwable.body.y)) {
+        throwable.kill()
+      }
+    })
   }
 
   preRender () {

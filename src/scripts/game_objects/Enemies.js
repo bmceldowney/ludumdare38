@@ -1,9 +1,11 @@
 import Alien from './Alien'
 
 export default class Enemies extends Phaser.Group {
-    constructor (game, spriteKey) {
-        super(game, null, 'group', false, true, Phaser.Physics.P2JS)
+    constructor (game, x, y, spriteKey) {
+        super(game)
         this.spriteKey = spriteKey
+        this.childX = x
+        this.childY = y
         this.maxCount = 3
     }
 
@@ -12,20 +14,13 @@ export default class Enemies extends Phaser.Group {
 
         if (!child) {
             if (this.length < this.maxCount) {
-                child =  new Alien(this.game, 0, 0, this.spriteKey)
+                child =  new Alien(this.game, this.childX, this.childY, this.spriteKey)
                 this.add(child)
             }
         } else {
-            child.reset()
-            child.body.x = 100
-            child.body.y = 100
+            child.regen()
         }
 
         return child
     }
 }
-
-
-
-// this.car = GameObjects.car(game, this.world.centerX + 100, this.world.centerY + 70)
-// this.cow = GameObjects.cow(game, this.world.centerX + 150, this.world.centerY + 50)
