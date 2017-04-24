@@ -1,7 +1,7 @@
 export default class Alien extends Phaser.Sprite {
     constructor (game, x, y, spritesheetKey) {
         super(game, x, y, spritesheetKey, 0)
-        game.physics.p2.enable(this, true)
+        game.physics.p2.enable(this, false)
         this.body.static = true
 
         this.body.clearShapes()
