@@ -17,6 +17,7 @@ export default class Gameplay extends _State {
     this.world.setBounds(0, 0, 480, 360);
     this.earth = DisplayObjects.earth(game, 460, 344)
 
+    this.motherShip = GameObjects.mothership(game, 50, 50);
     this.alien = GameObjects.alien(game, 100, 100)
     this.car = GameObjects.throwable(game, this.world.centerX + 100, this.world.centerY + 70)
     this.cow = GameObjects.cow(game, this.world.centerX + 150, this.world.centerY + 50)
@@ -27,6 +28,7 @@ export default class Gameplay extends _State {
     this.alien.body.onBeginContact.add(this.alienHit, this.alien)
 
     this.add.existing(this.car);
+    this.add.existing(this.motherShip);
     this.add.existing(this.cow);
     this.add.existing(this.MouseObject);
     this.add.existing(this.alien);
