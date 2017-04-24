@@ -3,8 +3,8 @@ import GameObjects from '../game_objects';
 import DisplayObjects from '../display_objects';
 import ui from '../ui'
 
-const ALIEN_RANGE = 200
-const REQUIRED_SCORE = 30
+const ALIEN_RANGE = 250
+const REQUIRED_SCORE = 20
 
 export default class Gameplay extends _State {
   create () {
@@ -23,10 +23,13 @@ export default class Gameplay extends _State {
     this.enemies = GameObjects.enemies(game, 100, 100)
 
     this.motherShip = GameObjects.mothership(game, 50, 50);
+    this.motherShip.onFled.addOnce(this.win, this)
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y)
+    this.score = 0
+    this.nextAngerThreshold = 5
 
     this.stagingPoints = [
-      new Phaser.Point(50, 50),
+      new Phaser.Point(70, 70),
       new Phaser.Point(70, -20),
       new Phaser.Point(0, 90)
     ]
@@ -47,6 +50,10 @@ export default class Gameplay extends _State {
         this.spawnNewThrowable()
         this.spawnNewAlien()
     })
+  }
+
+  win () {
+
   }
 
   spawnNewThrowable () {
@@ -79,7 +86,7 @@ export default class Gameplay extends _State {
       enemy.body.y = 100
       enemy.onMove.add(this.checkRange, this, 0, enemy)
       enemy.onShoot.add(this.throwTrash, this, 0, enemy)
-      enemy.body.onBeginContact.add(this.alienHit, enemy)
+      enemy.body.onBeginContact.add(this.alienHit, this, 0, enemy)
     }
   }
 
@@ -114,10 +121,11 @@ export default class Gameplay extends _State {
     })
   }
 
-  alienHit (collidedWith, alienBody) {
-    this.onMove.removeAll()
-    this.onShoot.removeAll()
-    this.splode()
+  alienHit (collidedWith, b, c, d, e, enemy) {
+    enemy.onMove.removeAll()
+    enemy.onShoot.removeAll()
+    enemy.splode()
+    this.score++
     if (collidedWith.sprite.exists) {
       collidedWith.sprite.kill()
     }
@@ -170,6 +178,16 @@ export default class Gameplay extends _State {
         throwable.kill()
       }
     })
+
+    if (this.score >= this.nextAngerThreshold) {
+      this.nextAngerThreshold += 5
+      this.motherShip.anger()
+    }
+
+    if (this.score > REQUIRED_SCORE) {
+      this.enemies.splode()
+      this.motherShip.flee()
+    }
   }
 
   preRender () {

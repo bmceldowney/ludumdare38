@@ -25,7 +25,7 @@ module.exports = {
     loader.load.spritesheet(COW, 'spaceCow.png', 16, 16)
     loader.load.spritesheet(FLING, 'fling.png', 16, 16);
     loader.load.spritesheet(TRASH, 'trash.png', 8, 8);
-    loader.load.spritesheet(MOTHERSHIP, 'motherShip.png', 64, 64, 2);
+    loader.load.spritesheet(MOTHERSHIP, 'motherShip.png', 64, 64);
     loader.load.spritesheet(COAL_PLANT, 'coalPlant.png', 32, 32);
     loader.load.physics('physicsData', 'mothership.json');
   },

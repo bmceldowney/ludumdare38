@@ -7,9 +7,12 @@ export default class Enemies extends Phaser.Group {
         this.childX = x
         this.childY = y
         this.maxCount = 3
+        this.sploded = false
     }
 
     spawn () {
+        if (this.sploded) return
+
         let child = this.getFirstDead()
 
         if (!child) {
@@ -22,5 +25,14 @@ export default class Enemies extends Phaser.Group {
         }
 
         return child
+    }
+
+    splode () {
+        this.sploded = true
+        let existing = this.children.filter(child => child.exists)
+
+        existing.forEach(child => {
+            child.splode()
+        })
     }
 }

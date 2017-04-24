@@ -1,5 +1,6 @@
 import menuDefinition from './components/menu'
 import gameOverDefinition from './components/gameOver'
+import winDefinition from './components/win'
 import theme from '../../assets/ui/theme.json'
 import DisplayObjects from '../display_objects';
 
@@ -48,5 +49,21 @@ export default {
                 cb()
             })
         }
-    }
+    },
+
+    win: {
+        create: function (game) {
+            EZGUI.create(winDefinition, 'ui-theme')
+            EZGUI.components.win.visible = false
+        },
+
+        show: function (cb) {
+            EZGUI.components.win.visible = true
+            EZGUI.components.win_button.on('click', () => {
+                EZGUI.components.win.visible = false
+                cb()
+            })
+        }
+    },
+
 }

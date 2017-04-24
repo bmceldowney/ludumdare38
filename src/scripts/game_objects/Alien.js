@@ -1,6 +1,6 @@
 const DURATION = 100
 const DISTANCE = 64
-const MAX_IDLE_MOVES = 5
+const MAX_IDLE_MOVES = 3
 
 export default class Alien extends Phaser.Sprite {
     constructor (game, x, y, spritesheetKey) {
