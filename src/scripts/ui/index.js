@@ -3,8 +3,6 @@ import gameOverDefinition from './components/gameOver'
 import theme from '../../assets/ui/theme.json'
 import DisplayObjects from '../display_objects';
 
-let menuScreen
-
 export default {
     load: (game, callback) => {
         const uiAssets = theme.__config__.resources.filter(asset => asset.includes('.png'))
@@ -24,30 +22,29 @@ export default {
 
     menu: {
         create: function (game) {
-            this.menuScreen = EZGUI.create(menuDefinition, 'ui-theme')
+            EZGUI.create(menuDefinition, 'ui-theme')
+            EZGUI.components.menu.visible = false
         },
 
-        onStart: function (cb) {
+        show: function (cb) {
+            EZGUI.components.menu.visible = true
             EZGUI.components.menu_button.on('click', () => {
+                EZGUI.components.menu.visible = false
                 cb()
-                this.menuScreen.destroy()
             })
         }
     },
 
     gameOver: {
         create: function (game) {
-            this.gameOver = EZGUI.create(gameOverDefinition, 'ui-theme')
-            this.gameOver.visible = false
+            EZGUI.create(gameOverDefinition, 'ui-theme')
+            EZGUI.components.gameOver.visible = false
         },
 
-        show: function () {
-            this.gameOver.visible = true
-        },
-
-        onStart: function (cb) {
-            EZGUI.components.menu_button.on('click', () => {
-                this.gameOver.visible = false
+        show: function (cb) {
+            EZGUI.components.gameOver.visible = true
+            EZGUI.components.gameOver_button.on('click', () => {
+                EZGUI.components.gameOver.visible = false
                 cb()
             })
         }

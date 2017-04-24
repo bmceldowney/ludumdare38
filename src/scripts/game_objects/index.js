@@ -15,6 +15,7 @@ const EXPLOSION = 'explosion'
 const FLING = 'fling';
 const TRASH = 'trash';
 const MOTHERSHIP = 'mothership'
+const COAL_PLANT = 'coalPlant'
 
 module.exports = {
   load: function load (loader) {
@@ -25,6 +26,7 @@ module.exports = {
     loader.load.spritesheet(FLING, 'fling.png', 16, 16);
     loader.load.spritesheet(TRASH, 'trash.png', 8, 8);
     loader.load.spritesheet(MOTHERSHIP, 'motherShip.png', 64, 64, 2);
+    loader.load.spritesheet(COAL_PLANT, 'coalPlant.png', 32, 32);
     loader.load.physics('physicsData', 'mothership.json');
   },
 
@@ -57,7 +59,7 @@ module.exports = {
   },
 
   throwables: function throwables (game, x, y) {
-    return new Throwables(game, x, y, [CAR1, COW])
+    return new Throwables(game, x, y, [COAL_PLANT, CAR1, COW])
   },
 
   enemies: function enemies (game, x, y) {

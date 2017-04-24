@@ -9,7 +9,7 @@ export default {
     layout: [1, 3],
     children: [
         {
-            id: 'menu_label',
+            id: 'gameOver_label',
             component: 'Label',
             position: { x: 40, y: 60 },
             text: 'THE EARTH\nIS\nUNLIVABLE.\nBAD JOB.',
@@ -24,7 +24,7 @@ export default {
         },
         null,
         {
-            id: 'menu_button',
+            id: 'gameOver_button',
             component: 'Button',
             position: 'center',
             text: 'Try again',

@@ -30,8 +30,6 @@ export default class Gameplay extends _State {
       new Phaser.Point(0, 70)
     ]
 
-    this.stagingIndicies = 0
-
     this.line = new Phaser.Line()
     this.draggingBody = null;
 
@@ -53,15 +51,12 @@ export default class Gameplay extends _State {
   spawnNewThrowable () {
     const throwable = this.throwables.spawn()
     if (throwable) {
-      if (throwable.stagingIndex === undefined) {
-        throwable.stagingIndex = this.stagingIndicies
-        this.stagingIndicies++
-      }
       throwable.body.static = true
-      throwable.body.x -= this.stagingPoints[throwable.stagingIndex].x
-      throwable.body.y -= this.stagingPoints[throwable.stagingIndex].y
+      throwable.body.x -= this.stagingPoints[throwable.index].x
+      throwable.body.y -= this.stagingPoints[throwable.index].y
       throwable.rotation = 0
       throwable.body.static = false
+      this.earth.doDamage(-1)
     }
   }
 
@@ -77,8 +72,7 @@ export default class Gameplay extends _State {
   }
 
   loseGame () {
-    ui.gameOver.show()
-    ui.gameOver.onStart(() => {
+    ui.gameOver.show(() => {
       this.stateProvider.gameplay(this.state)
     })
   }
@@ -104,7 +98,7 @@ export default class Gameplay extends _State {
 
     tween.onComplete.add(() => {
         trash.destroy()
-        this.earth.doDamage(5)
+        this.earth.doDamage(7)
         console.log(this.earth.health)
     })
   }

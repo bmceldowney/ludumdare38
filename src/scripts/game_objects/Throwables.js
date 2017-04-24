@@ -1,4 +1,5 @@
 import ThrowableObject from './ThrowableObject'
+import CoalPlant from './CoalPlant'
 
 export default class Throwables extends Phaser.Group {
     constructor (game, x, y, childTypes) {
@@ -7,16 +8,22 @@ export default class Throwables extends Phaser.Group {
         this.childX = x
         this.childY = y
         this.maxCount = 3
+        this.index = 0
     }
 
     spawn () {
         let child = this.getFirstDead()
-        const typeIndex = game.rnd.integerInRange(0, this.childTypes.length - 1)
 
         if (!child) {
             if (this.length < this.maxCount) {
-                child =  new ThrowableObject(this.game, this.childX, this.childY, this.childTypes[typeIndex])
+                if (this.index === 0) {
+                    child =  new CoalPlant(this.game, this.childX, this.childY)
+                } else {
+                    child =  new ThrowableObject(this.game, this.childX, this.childY, this.childTypes[this.index])
+                }
                 this.add(child)
+                child.index = this.index
+                this.index++
             }
         } else {
             child.reset()

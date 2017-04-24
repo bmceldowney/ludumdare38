@@ -4,11 +4,11 @@ import DisplayObjects from '../display_objects';
 
 export default class Menu extends _State {
   create () {
-    this.background = DisplayObjects.background(game)    
+    this.background = DisplayObjects.background(game)
     this.stage.disableVisibilityChange = true;
 
     ui.menu.create(this)
-    ui.menu.onStart(() => {
+    ui.menu.show(() => {
       this.stateProvider.gameplay(this.state)
     })
   }

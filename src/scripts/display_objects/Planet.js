@@ -1,8 +1,10 @@
+const MAX_HEALTH = 100
+
 export default class Planet extends Phaser.Group {
     constructor (game, x, y, imageKey, sadImageKey, outlineKey) {
         super(game)
 
-        this.health = 100
+        this.health = MAX_HEALTH
         this.planetGroup = new Phaser.Group(game)
         this.image = new Phaser.Image(game, 0, 0, imageKey)
         this.sadImage = new Phaser.Image(game, 0, 0, sadImageKey)
@@ -30,7 +32,8 @@ export default class Planet extends Phaser.Group {
 
     doDamage (value) {
         this.health -= value
-        this.image.alpha = Math.max(this.health / 100, 0)
+        this.health = Math.min(this.health, MAX_HEALTH)
+        this.image.alpha = Math.max(this.health / MAX_HEALTH, 0)
 
         if (this.health < 1) {
             this.onPolluted.dispatch()
