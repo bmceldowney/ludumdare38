@@ -3,6 +3,7 @@ import ThrowableObject from './ThrowableObject'
 import MouseObject from './MouseObject'
 import Alien from './Alien'
 import Trash from './Trash'
+import Throwables from './Throwables'
 import Mothership from './Mothership'
 
 const PLAYER_SHIP = 'ship'
@@ -33,7 +34,7 @@ module.exports = {
     return new Ship(game, x, y, PLAYER_SHIP);
   },
 
-  throwable: function throwable (game, x, y){
+  car: function car (game, x, y){
     return new ThrowableObject(game, x, y, CAR1)
   },
 
@@ -51,5 +52,9 @@ module.exports = {
 
   trash: function trash (game, x, y) {
     return new Trash(game, x, y, TRASH)
+  },
+
+  throwables: function throwables (game, x, y) {
+    return new Throwables(game, x, y, [CAR1, COW])
   }
 }

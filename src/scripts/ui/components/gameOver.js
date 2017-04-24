@@ -11,7 +11,7 @@ export default {
         {
             id: 'menu_label',
             component: 'Label',
-            position: { x: 40, y: 40 },
+            position: { x: 40, y: 60 },
             text: 'THE EARTH\nIS\nUNLIVABLE.\nBAD JOB.',
             width: 200,
             padding: 10,

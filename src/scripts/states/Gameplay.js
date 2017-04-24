@@ -3,33 +3,35 @@ import GameObjects from '../game_objects';
 import DisplayObjects from '../display_objects';
 import ui from '../ui'
 
-const ALIEN_RANGE = 250
+const ALIEN_RANGE = 200
 
 export default class Gameplay extends _State {
   create () {
     ui.gameOver.create(this)
     this.attached = false;
     this.background = DisplayObjects.background(game)
+    this.stage.backgroundColor = '#000000';
+
     game.physics.startSystem(Phaser.Physics.P2JS); //Starting the p2 physics
     game.physics.p2.setBoundsToWorld(false, false, false, false, false);
-    this.stage.backgroundColor = '#000000';
     game.physics.p2.restitution = 0.8;
+
     this.world.setBounds(0, 0, 480, 360);
     this.earth = DisplayObjects.earth(game, 460, 344)
+    this.throwables = GameObjects.throwables(game, 460, 344)
 
     this.motherShip = GameObjects.mothership(game, 50, 50);
     this.alien = GameObjects.alien(game, 100, 100)
-    this.car = GameObjects.throwable(game, this.world.centerX + 100, this.world.centerY + 70)
-    this.cow = GameObjects.cow(game, this.world.centerX + 150, this.world.centerY + 50)
     this.MouseObject = GameObjects.mouse(game, game.input.x, game.input.y)
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON)
-    this.line = new Phaser.Line(this.MouseObject.body.x, this.MouseObject.body.y, this.car.body.x, this.car.body.y)
 
     this.alien.body.onBeginContact.add(this.alienHit, this.alien)
 
-    this.add.existing(this.car);
+    // this.add.existing(this.car);
+    // this.add.existing(this.cow);
+    // this.line = new Phaser.Line(this.MouseObject.body.x, this.MouseObject.body.y, this.car.body.x, this.car.body.y)
+
     this.add.existing(this.motherShip);
-    this.add.existing(this.cow);
     this.add.existing(this.MouseObject);
     this.add.existing(this.alien);
 
@@ -41,6 +43,8 @@ export default class Gameplay extends _State {
     this.alien.onMove.add(this.checkRange, this)
     this.alien.onShoot.add(this.throwTrash, this)
     this.earth.onPolluted.addOnce(this.loseGame, this)
+
+    this.throwables.spawn()
   }
 
   loseGame () {
@@ -94,10 +98,10 @@ export default class Gameplay extends _State {
   }
 
   click (pointer) {
-    var bodies = game.physics.p2.hitTest(pointer.position, [ this.car ])
-
+    var bodies = game.physics.p2.hitTest(pointer.position, this.throwables.children)
     if (bodies.length)
     {
+      console.log("item!!!")
       this.car.body.static = true
       this.line.setTo(this.MouseObject.body.x, this.MouseObject.body.y, this.car.body.x, this.car.body.y)
       this.drawLine = true
